@@ -1,0 +1,12 @@
+package com.uro_alert.backend.repository;
+
+import com.uro_alert.backend.model.User;
+
+public interface UserRepository{
+
+//    Optional<User> findByEmail(String email);
+
+    User findByEmail(String email);
+
+    User save(User user);
+}
