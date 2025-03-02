@@ -1,7 +1,7 @@
 package com.uro_alert.backend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uro_alert.backend.enumeration.TokenType;
+import com.uro_alert.backend.model.enumeration.TokenType;
 import com.uro_alert.backend.model.*;
 import com.uro_alert.backend.repository.TokenRepository;
 import com.uro_alert.backend.repository.UserRepository;

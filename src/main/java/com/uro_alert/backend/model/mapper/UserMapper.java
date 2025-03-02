@@ -1,6 +1,6 @@
 package com.uro_alert.backend.model.mapper;
 
-import com.uro_alert.backend.enumeration.Role;
+import com.uro_alert.backend.model.enumeration.Role;
 import com.uro_alert.backend.model.User;
 import org.springframework.jdbc.core.RowMapper;
 

@@ -2,11 +2,9 @@ package com.uro_alert.backend.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.uro_alert.backend.enumeration.Role;
+import com.uro_alert.backend.model.enumeration.Role;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.io.Serializable;
 
 
 @SuperBuilder

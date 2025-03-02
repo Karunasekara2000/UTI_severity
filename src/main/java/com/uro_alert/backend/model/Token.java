@@ -1,7 +1,7 @@
 package com.uro_alert.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.uro_alert.backend.enumeration.TokenType;
+import com.uro_alert.backend.model.enumeration.TokenType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

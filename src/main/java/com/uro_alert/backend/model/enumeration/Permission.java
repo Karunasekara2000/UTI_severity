@@ -1,4 +1,4 @@
-package com.uro_alert.backend.enumeration;
+package com.uro_alert.backend.model.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
