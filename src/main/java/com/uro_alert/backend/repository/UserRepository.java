@@ -5,6 +5,7 @@ import com.uro_alert.backend.model.User;
 public interface UserRepository{
 
 //    Optional<User> findByEmail(String email);
+    User findById(int id);
 
     User findByEmail(String email);
 

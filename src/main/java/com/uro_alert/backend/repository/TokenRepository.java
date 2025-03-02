@@ -16,4 +16,5 @@ public interface TokenRepository  {
   Token findByToken(String token);
   Token save(Token token);
   List<Token> saveAll(List<Token> tokenList);
+   void batchUpdateTokensAsRevoked(List<Token> tokens);
 }

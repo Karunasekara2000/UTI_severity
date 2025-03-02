@@ -25,9 +25,18 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
+    public User findById(int id) {
+        StringBuilder query = new StringBuilder("select id,first_name,last_name,email,password,role from user where id = :id");
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        return namedParameterJdbcTemplate.queryForObject(query.toString(), params, new UserMapper());
+    }
+
+    @Override
     public User findByEmail(String email) {
 
-        StringBuilder query = new StringBuilder("select * from users where email = :email");
+        StringBuilder query = new StringBuilder("select id,first_name,last_name,email,password,role from user where email = :email");
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("email", email);
 
@@ -37,13 +46,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
 
-        StringBuilder query = new StringBuilder("INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ? )");
+        StringBuilder query = new StringBuilder("INSERT INTO user (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ? )");
 
         KeyHolder key = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getFirstname());
-            ps.setString(2, user.getLastname());
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPassword());
             ps.setString(5, String.valueOf(user.getRole()));

@@ -20,30 +20,39 @@ public class TokenRepositoryImpl implements TokenRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final UserRepository userRepository;
 
-    public TokenRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public TokenRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, UserRepository userRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<Token> findAllValidTokenByUser(Integer id) {
 
-        StringBuilder query = new StringBuilder("SELECT t FROM Token t inner join User u " +
-                "     on t.user.id = u.id " +
-                "     where u.id = :id and (t.expired = false or t.revoked = false");
+        StringBuilder query = new StringBuilder("SELECT t.id, t.token, t.token_type, t.revoked, t.expired, " +
+                "u.id AS user_id, u.first_name, u.last_name, u.email, u.password, u.role " +
+                "FROM token t\n" +
+                "INNER JOIN user u ON t.user_id = u.id\n" +
+                "WHERE u.id = :id AND (t.expired = false OR t.revoked = false)");
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
+
+
 
         return namedParameterJdbcTemplate.query(query.toString(), params, new TokenMapper());
     }
 
     @Override
     public Token findByToken(String token) {
-        StringBuilder query = new StringBuilder("SELECT * FROM token WHERE token=:token ");
+        StringBuilder query = new StringBuilder("SELECT t.id, t.token, t.token_type, t.revoked, t.expired, " +
+                "u.id AS user_id, u.first_name, u.last_name, u.email, u.password, u.role " +
+                "FROM token t" +
+                "INNER JOIN user u ON t.user_id = u.id WHERE token=:token ");
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("token", token);
-        return namedParameterJdbcTemplate.queryForObject(query.toString(), param, Token.class);
+        return namedParameterJdbcTemplate.queryForObject(query.toString(), param, new TokenMapper());
     }
 
     @Override
@@ -95,6 +104,14 @@ public class TokenRepositoryImpl implements TokenRepository {
         });
 
         return tokenList;
+    }
+
+    public void batchUpdateTokensAsRevoked(List<Token> tokens) {
+        String sql = "UPDATE token SET expired = true, revoked = true WHERE id = ?";
+
+        jdbcTemplate.batchUpdate(sql, tokens, tokens.size(), (ps, token) -> {
+            ps.setInt(1, token.getId());
+        });
     }
 
 }

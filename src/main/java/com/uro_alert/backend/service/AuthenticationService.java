@@ -7,6 +7,7 @@ import com.uro_alert.backend.repository.TokenRepository;
 import com.uro_alert.backend.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,8 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .firstname(request.getFirstName())
-                .lastname(request.getLastName())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
@@ -50,13 +51,16 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
+
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
         var user = repository.findByEmail(request.getEmail());
+
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -79,14 +83,22 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
+
+
+        var validTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validTokens.isEmpty()) {
             return;
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
+        }
+        tokenRepository.batchUpdateTokensAsRevoked(validTokens);
+
+//        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+//        if (validUserTokens.isEmpty())
+//            return;
+//        validUserTokens.forEach(token -> {
+//            token.setExpired(true);
+//            token.setRevoked(true);
+//        });
+//        tokenRepository.saveAll(validUserTokens);
     }
 
     public void refreshToken(
