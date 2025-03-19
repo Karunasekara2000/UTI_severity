@@ -39,8 +39,6 @@ public class TokenRepositoryImpl implements TokenRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
 
-
-
         return namedParameterJdbcTemplate.query(query.toString(), params, new TokenMapper());
     }
 
