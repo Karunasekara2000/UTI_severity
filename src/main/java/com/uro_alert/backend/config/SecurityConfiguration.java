@@ -17,6 +17,7 @@ import static com.uro_alert.backend.model.enumeration.Permission.*;
 import static com.uro_alert.backend.model.enumeration.Role.ADMIN;
 import static com.uro_alert.backend.model.enumeration.Role.MANAGER;
 import static org.springframework.http.HttpMethod.*;
+import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -47,6 +48,7 @@ public class SecurityConfiguration {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(withDefaults())
                 .authorizeHttpRequests(req ->
                         req.antMatchers(WHITE_LIST_URL).permitAll()
                                 .antMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
