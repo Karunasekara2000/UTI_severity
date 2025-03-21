@@ -28,7 +28,7 @@ public class PatientController {
         return ResponseEntity.ok(patientService.viewPatientById(id));
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<PatientDto> createPatient(@RequestBody PatientDto patientDto) {
         return ResponseEntity.ok(patientService.save(patientDto));
     }
