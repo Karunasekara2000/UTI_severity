@@ -32,7 +32,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 " isWhite, isVeteran, resistanceSXT14, resistanceNIT14, resistanceLVX14, resistanceCIP14, " +
                 " DM, HTN, CHF, Pulmonary, Renal, Obesity, Tumor, Liver, Coagulopathy, NeuroOther, " +
                 " nursingHome, ER, ICU, IP, OP, colonizationPressureNIT90O, colonizationPressureSXT90, " +
-                " colonizationPressureLVX90, colonizationPressureCIP90" +
+                " colonizationPressureLVX90, colonizationPressureCIP90, prediction, treatment, doctor_recommendation " +
                 "FROM patient_details");
 
         return namedParameterJdbcTemplate.query(query.toString(),new PatientMapper());
@@ -41,33 +41,33 @@ public class PatientRepositoryImpl implements PatientRepository {
     @Override
     public PatientDto save(PatientDto patientDto) {
 
-        StringBuilder query = new StringBuilder("INSERT INTO Patient (Age, Color, Transparency, pH, Glucose, Protein, " +
-                " SpecificGravity, WBC, RBC, EpithelialCells" +
+        StringBuilder query = new StringBuilder("INSERT INTO patient_details(Age, Color, Transparency, pH, Glucose, Protein, " +
+                " SpecificGravity, WBC, RBC, EpithelialCells, " +
                 " MucousThreads, AmorphousUrates, Bacteria, FEMALE, demoAge, isWhite, isVeteran, " +
                 " resistanceSXT14, resistanceNIT14, resistanceLVX14, resistanceCIP14, DM, HTN, CHF, " +
                 " Pulmonary, Renal, Obesity, Tumor, Liver, Coagulopathy, NeuroOther, nursingHome, ER, " +
                 " ICU, IP, OP, colonizationPressureNIT90O, colonizationPressureSXT90, " +
-                " colonizationPressureLVX90, colonizationPressureCIP90" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," +
-                " ?, ?, ?, ?, ?, ?, ?, ?");
+                " colonizationPressureLVX90, colonizationPressureCIP90, prediction, treatment, doctor_recommendation) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," +
+                " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         KeyHolder key = new GeneratedKeyHolder();
 
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, patientDto.getAge());
-            ps.setInt(2, patientDto.getColor());
-            ps.setInt(3, patientDto.getTransparency());
+            ps.setString(2, patientDto.getColor());
+            ps.setString(3, patientDto.getTransparency());
             ps.setDouble(4, patientDto.getPH());
-            ps.setInt(5, patientDto.getGlucose());
-            ps.setInt(6, patientDto.getProtein());
+            ps.setString(5, patientDto.getGlucose());
+            ps.setString(6, patientDto.getProtein());
             ps.setDouble(7, patientDto.getSpecificGravity());
             ps.setInt(8, patientDto.getWBC());
             ps.setInt(9, patientDto.getRBC());
-            ps.setInt(10, patientDto.getEpithelialCells());
-            ps.setInt(11, patientDto.getMucousThreads());
-            ps.setInt(12, patientDto.getAmorphousUrates());
-            ps.setInt(13, patientDto.getBacteria());
+            ps.setString(10, patientDto.getEpithelialCells());
+            ps.setString(11, patientDto.getMucousThreads());
+            ps.setString(12, patientDto.getAmorphousUrates());
+            ps.setString(13, patientDto.getBacteria());
             ps.setInt(14, patientDto.getFEMALE());
             ps.setInt(15, patientDto.getDemoAge());
             ps.setBoolean(16, patientDto.isWhite());
@@ -95,11 +95,18 @@ public class PatientRepositoryImpl implements PatientRepository {
             ps.setFloat(38, patientDto.getColonizationPressureSXT90());
             ps.setFloat(39, patientDto.getColonizationPressureLVX90());
             ps.setFloat(40, patientDto.getColonizationPressureCIP90());
+            ps.setString(41, patientDto.getPrediction());
+            ps.setString(42, patientDto.getTreatment());
+            ps.setString(43, patientDto.getDoctorsRecommendation());
 
             return ps;
-        });
+        },key);
 
-        return patientDto;
+        if(key.getKey() != null) {
+            patientDto.setId(key.getKey().intValue());
+        }
+
+       return patientDto;
     }
 
     @Override
@@ -110,8 +117,8 @@ public class PatientRepositoryImpl implements PatientRepository {
                 " isWhite, isVeteran, resistanceSXT14, resistanceNIT14, resistanceLVX14, resistanceCIP14, " +
                 " DM, HTN, CHF, Pulmonary, Renal, Obesity, Tumor, Liver, Coagulopathy, NeuroOther, " +
                 " nursingHome, ER, ICU, IP, OP, colonizationPressureNIT90O, colonizationPressureSXT90, " +
-                " colonizationPressureLVX90, colonizationPressureCIP90" +
-                "FROM patient_details WHERE id = : id");
+                " colonizationPressureLVX90, colonizationPressureCIP90, prediction, treatment, doctor_recommendation" +
+                " FROM patient_details WHERE id =:id");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);

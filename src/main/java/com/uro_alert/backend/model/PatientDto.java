@@ -2,11 +2,14 @@ package com.uro_alert.backend.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,49 +17,64 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PatientDto {
-    //analysis
+public class PatientDto  implements Serializable{
+
     private int id;
-    private int Age;
-    private int Color;
-    private int Transparency;
+    private int age;
+    private String color;
+    private String transparency;
+    @JsonProperty("pH")
     private double pH;
-    private int Glucose;
-    private int Protein;
-    private double SpecificGravity;
-    private int WBC;
-    private int RBC;
-    private int EpithelialCells;
-    private int MucousThreads;
-    private int AmorphousUrates;
-    private int Bacteria;
-    private int FEMALE;
-    //other
+    private String glucose;
+    private String protein;
+    private double specificGravity;
+    @JsonProperty("wBC")
+    private int wBC;
+    @JsonProperty("rBC")
+    private int rBC;
+    private String epithelialCells;
+    private String mucousThreads;
+    private String amorphousUrates;
+    private String bacteria;
+    @JsonProperty("fEMALE")
+    private int fEMALE;
     private int demoAge;
+    @JsonProperty("isWhite")
     private boolean isWhite;
+    @JsonProperty("isVeteran")
     private boolean isVeteran;
     private boolean resistanceSXT14;
     private boolean resistanceNIT14;
     private boolean resistanceLVX14;
     private boolean resistanceCIP14;
-    private boolean DM;
-    private boolean HTN;
-    private boolean CHF;
-    private boolean Pulmonary;
-    private boolean Renal;
-    private boolean Obesity;
-    private boolean Tumor;
-    private boolean Liver;
-    private boolean Coagulopathy;
-    private boolean NeuroOther;
+    @JsonProperty("dM")
+    private boolean dM;
+    @JsonProperty("hTN")
+    private boolean hTN;
+    @JsonProperty("cHF")
+    private boolean cHF;
+    private boolean pulmonary;
+    private boolean renal;
+    private boolean obesity;
+    private boolean tumor;
+    private boolean liver;
+    private boolean coagulopathy;
+    private boolean neuroOther;
     private boolean nursingHome;
-    private boolean ER;
-    private boolean ICU;
-    private boolean IP;
-    private boolean OP;
+    @JsonProperty("eR")
+    private boolean eR;
+    @JsonProperty("iCU")
+    private boolean iCU;
+    @JsonProperty("iP")
+    private boolean iP;
+    @JsonProperty("oP")
+    private boolean oP;
     private float colonizationPressureNIT90O;
     private float colonizationPressureSXT90;
     private float colonizationPressureLVX90;
     private float colonizationPressureCIP90;
+    private String prediction;
+    private String treatment;
+    private String doctorsRecommendation;
 
 }
