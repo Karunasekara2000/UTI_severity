@@ -76,31 +76,31 @@ public class PatientController {
             placeholders.put("fEMALE", String.valueOf(patient.getFEMALE()));
 
 // Resistance and Colonization
-            placeholders.put("resistanceNIT14", String.valueOf(patient.isResistanceNIT14()));
-            placeholders.put("resistanceSXT14", String.valueOf(patient.isResistanceSXT14()));
-            placeholders.put("resistanceLVX14", String.valueOf(patient.isResistanceLVX14()));
-            placeholders.put("resistanceCIP14", String.valueOf(patient.isResistanceCIP14()));
+            placeholders.put("resistanceNIT14", patient.isResistanceNIT14() ? "Presence" : "Absence");
+            placeholders.put("resistanceSXT14", patient.isResistanceSXT14() ? "Presence" : "Absence");
+            placeholders.put("resistanceLVX14", patient.isResistanceLVX14() ? "Presence" : "Absence");
+            placeholders.put("resistanceCIP14", patient.isResistanceCIP14() ? "Presence" : "Absence");
             placeholders.put("colonizationPressureNIT90O", String.valueOf(patient.getColonizationPressureNIT90O()));
             placeholders.put("colonizationPressureSXT90", String.valueOf(patient.getColonizationPressureSXT90()));
             placeholders.put("colonizationPressureLVX90", String.valueOf(patient.getColonizationPressureLVX90()));
             placeholders.put("colonizationPressureCIP90", String.valueOf(patient.getColonizationPressureCIP90()));
 
 // Clinical Patient Details
-            placeholders.put("dM", String.valueOf(patient.isDM()));
-            placeholders.put("hTN", String.valueOf(patient.isHTN()));
-            placeholders.put("cHF", String.valueOf(patient.isCHF()));
-            placeholders.put("pulmonary", String.valueOf(patient.isPulmonary()));
-            placeholders.put("renal", String.valueOf(patient.isRenal()));
-            placeholders.put("obesity", String.valueOf(patient.isObesity()));
-            placeholders.put("tumor", String.valueOf(patient.isTumor()));
-            placeholders.put("liver", String.valueOf(patient.isLiver()));
-            placeholders.put("coagulopathy", String.valueOf(patient.isCoagulopathy()));
-            placeholders.put("neuroOther", String.valueOf(patient.isNeuroOther()));
-            placeholders.put("nursingHome", String.valueOf(patient.isNursingHome()));
-            placeholders.put("eR", String.valueOf(patient.isER()));
-            placeholders.put("iCU", String.valueOf(patient.isICU()));
-            placeholders.put("iP", String.valueOf(patient.isIP()));
-            placeholders.put("oP", String.valueOf(patient.isOP()));
+            placeholders.put("dM", patient.isDM() ? "Presence" : "Absence");
+            placeholders.put("hTN", patient.isHTN() ? "Presence" : "Absence");
+            placeholders.put("cHF", patient.isCHF() ? "Presence" : "Absence");
+            placeholders.put("pulmonary", patient.isPulmonary() ? "Presence" : "Absence");
+            placeholders.put("renal", patient.isRenal() ? "Presence" : "Absence");
+            placeholders.put("obesity", patient.isObesity() ? "Presence" : "Absence");
+            placeholders.put("tumor", patient.isTumor() ? "Presence" : "Absence");
+            placeholders.put("liver", patient.isLiver() ? "Presence" : "Absence");
+            placeholders.put("coagulopathy", patient.isCoagulopathy() ? "Presence" : "Absence");
+            placeholders.put("neuroOther", patient.isNeuroOther() ? "Presence" : "Absence");
+            placeholders.put("nursingHome", patient.isNursingHome() ? "Presence" : "Absence");
+            placeholders.put("eR", patient.isER() ? "Presence" : "Absence");
+            placeholders.put("iCU", patient.isICU() ? "Presence" : "Absence");
+            placeholders.put("iP", patient.isIP() ? "Presence" : "Absence");
+            placeholders.put("oP", patient.isOP() ? "Presence" : "Absence");
 
 // Prediction and Treatment
             placeholders.put("prediction", patient.getPrediction());
